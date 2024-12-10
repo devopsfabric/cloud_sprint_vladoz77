@@ -9,19 +9,27 @@ terraform {
 // Настройка провайдера
 provider "vault" {
   address = "http://127.0.0.1:8200"
-  token   = "environment"
+  skip_child_token = true
+  auth_login {
+    path = "auth/approle/login"
+
+    parameters = {
+      role_id = "fac78a2a-ed15-7dd1-8a23-dcab95b63db8"
+      secret_id = "9a4270ab-64ae-1640-b715-1a40662c7eed"
+    }
+  }
 }
 
 // Настройка vault
-data "vault_generic_secret" "yc_creds" {
-    path = "secret/yc"
+data "vault_kv_secret_v2" "yc_creds" {
+  mount = "kv" 
+  name  = "yc" 
 }
 
-
 provider "yandex" {
-  token = data.vault_generic_secret.yc_creds.data["iam_token"]
-  cloud_id  = data.vault_generic_secret.yc_creds.data["cloud_id"]
-  folder_id = data.vault_generic_secret.yc_creds.data["folder_id"]
+  token = data.vault_kv_secret_v2.yc_creds.data["iam_token"]
+  cloud_id  = data.vault_kv_secret_v2.yc_creds.data["cloud_id"]
+  folder_id = data.vault_kv_secret_v2.yc_creds.data["folder_id"]
   zone      = "ru-central1-a"
 }
 
