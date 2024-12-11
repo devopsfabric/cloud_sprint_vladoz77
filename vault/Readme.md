@@ -17,34 +17,6 @@ docker exec -it vault vault operator init
 export VAULT_ADDR='http://0.0.0.0:8200'
 ```
 
-### Настраиваем вход через логин и пароль
-1. Включаем метод входа `userpass`
-   ```bash
-   vault auth enable userpass
-   ```
-
-2. Создаем политику `admin`
-    ```bash
-    vim admin.hcl
-    ```
-    ```bash
-    path "*" {
-    capabilities = ["create", "read", "update", "delete", "list", "sudo"]
-    }
-    ```
-    Применяем политику
-
-    ```bash
-    vault policy write admin admin.hcl
-    ```
-
-3. Создаем пользователя `admin` с паролем `password`
-    ```bash
-    vault write auth/userpass/users/admin \    
-    password=password \
-    policies=admins
-    ```
-
 ### Включаем kv хранилище
 
 Переходим по адресу `http://0.0.0.0:8200` логинемся под рутовым токеном и заходим в **secret engine** - **Enable new engine** - **kv**
