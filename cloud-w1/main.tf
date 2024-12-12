@@ -14,16 +14,16 @@ provider "vault" {
     path = "auth/approle/login"
 
     parameters = {
-      role_id = "fac78a2a-ed15-7dd1-8a23-dcab95b63db8"
-      secret_id = "9a4270ab-64ae-1640-b715-1a40662c7eed"
+      role_id = var.role_id
+      secret_id = var.secret_id
     }
   }
 }
 
-// Настройка vault
+// Настройка секретов
 data "vault_kv_secret_v2" "yc_creds" {
   mount = "kv" 
-  name  = "yc" 
+  name  = "yc-sa-admin" 
 }
 
 provider "yandex" {
