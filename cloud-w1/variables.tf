@@ -19,5 +19,5 @@ variable "role_id" {
 variable "secret_id" {
   description = "vault secret-id"
   type = string
-  default = "6b1cb99e-fbd2-3ea0-505b-2d3cdc58fac3"
+  default = "79633536-2e2d-83fa-2972-d47c413ab3fb"
 }

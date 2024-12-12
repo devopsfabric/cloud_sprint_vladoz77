@@ -37,11 +37,12 @@ provider "yandex" {
 resource "yandex_storage_bucket" "devops-site" {
   bucket                = var.bucket_name
   default_storage_class = "standard"
-  anonymous_access_flags {
-    read        = true
-    list        = true
-    config_read = true
+  grant {
+    type        = "Group"
+    permissions = ["READ", "WRITE"]
+    uri         = "http://acs.amazonaws.com/groups/global/AllUsers"
   }
+
   website {
     index_document = var.index
   }
