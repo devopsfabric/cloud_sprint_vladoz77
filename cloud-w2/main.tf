@@ -43,20 +43,20 @@ resource "yandex_kms_symmetric_key" "key" {
 
 // Создадим сервисный аккаунт
 resource "yandex_iam_service_account" "sa_s3_editor" {
-  name = "s3-editor"
+  name = var.sa-name
 }
 
 // Создадим роль storage.editor для сервисного аккаунта
 resource "yandex_resourcemanager_folder_iam_member" "sa_editor" {
   folder_id = data.vault_kv_secret_v2.yc_creds.data["folder_id"]
-  role      = "storage.editor"
+  role      = var.sa-storage-editor-role
   member    = "serviceAccount:${yandex_iam_service_account.sa_s3_editor.id}"
 }
 
 // Создадим роль storage.editor для сервисного аккаунта
 resource "yandex_resourcemanager_folder_iam_member" "kms" {
   folder_id = data.vault_kv_secret_v2.yc_creds.data["folder_id"]
-  role      = "kms.keys.encrypter"
+  role      = var.sa-kms-encrypter-decripter-role
   member    = "serviceAccount:${yandex_iam_service_account.sa_s3_editor.id}"
 }
 
@@ -78,7 +78,7 @@ resource "yandex_storage_bucket" "s3-bucket-sec" {
     }
   }
 
-  versioning {
+    versioning {
     enabled = true
   }
 }
