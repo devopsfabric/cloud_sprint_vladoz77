@@ -19,8 +19,8 @@ pipeline {
 
         stage ('copy to s3') {
             steps{
-                withAWS(credentials: 's3-editor', endpointUrl: ${ENDPOINT_URL}, region: 'ru-central1-a') {
-                    s3Upload acl: 'Private', bucket: ${BUCKET_NAME}, includePathPattern: '**/*'
+                withAWS(credentials: 's3-editor', endpointUrl: "${ENDPOINT_URL}", region: 'ru-central1-a') {
+                    s3Upload acl: 'Private', bucket: "${BUCKET_NAME}", includePathPattern: '**/*'
                     }
             }
         }
