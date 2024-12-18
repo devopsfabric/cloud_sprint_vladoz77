@@ -3,6 +3,7 @@ pipeline {
     environment {
         BUCKET_NAME = "fabrika-terraform-site"
         ENDPOINT_URL = "https://storage.yandexcloud.net"
+        REPO_URL = "https://github.com/devopsfabric/single-page.git"
         }
     stages {
         stage ('Clean WS') {
@@ -13,7 +14,7 @@ pipeline {
 
         stage ('pull repo with site') {
             steps{
-                git branch: 'main', url: 'https://github.com/devopsfabric/single-page.git'
+                git branch: 'main', url: "${REPO_URL}"
             }
         }
 
