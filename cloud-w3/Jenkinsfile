@@ -13,6 +13,14 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/devopsfabric/single-page.git'
             }
         }
+
+        stage ('copy to s3') {
+            steps{
+                withAWS(credentials: 's3-editor', endpointUrl: 'https://storage.yandexcloud.net', region: 'ru-central1-a') {
+                    s3Upload acl: 'Private', bucket: 'sec-bucket', includePathPattern: '**/*'
+                    }
+            }
+        }
     }
 
     
