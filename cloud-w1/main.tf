@@ -45,12 +45,6 @@ resource "yandex_storage_bucket" "devops-site" {
 
   website {
     index_document = var.index
+    error_document = var.index
   }
-}
-
-// Копируем index.html
-resource "yandex_storage_object" "upload-object" {
-  bucket     = yandex_storage_bucket.devops-site.id
-  key    = var.index
-  source = var.index
 }
